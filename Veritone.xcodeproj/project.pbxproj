@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		14AF00032F6BDE3F00989F02 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 14AF00022F6BDE3F00989F02 /* Alamofire */; };
+		14AF01032F6BDE3F00989F02 /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14AF01022F6BDE3F00989F02 /* WhisperKit */; };
+		14AF02032F6BDE3F00989F02 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 14AF02022F6BDE3F00989F02 /* KeyboardShortcuts */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		14B293312F6BDE3E00989F02 /* Veritone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Veritone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14AF00032F6BDE3F00989F02 /* Alamofire in Frameworks */,
+				14AF02032F6BDE3F00989F02 /* KeyboardShortcuts in Frameworks */,
+				14AF01032F6BDE3F00989F02 /* WhisperKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,9 @@
 			);
 			name = Veritone;
 			packageProductDependencies = (
+				14AF00022F6BDE3F00989F02 /* Alamofire */,
+				14AF02022F6BDE3F00989F02 /* KeyboardShortcuts */,
+				14AF01022F6BDE3F00989F02 /* WhisperKit */,
 			);
 			productName = Veritone;
 			productReference = 14B293312F6BDE3E00989F02 /* Veritone.app */;
@@ -94,6 +106,11 @@
 			);
 			mainGroup = 14B293282F6BDE3E00989F02;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				14AF00012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				14AF02012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				14AF01012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "WhisperKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 14B293322F6BDE3E00989F02 /* Products */;
 			projectDirPath = "";
@@ -248,6 +265,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Veritone/Veritone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -256,6 +274,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Veritone needs microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -278,6 +297,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Veritone/Veritone.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -286,6 +306,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Veritone needs microphone access to record audio for transcription.";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -325,6 +346,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		14AF00012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.0;
+			};
+		};
+		14AF01012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "WhisperKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argmaxinc/WhisperKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+		14AF02012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		14AF00022F6BDE3F00989F02 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14AF00012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		14AF01022F6BDE3F00989F02 /* WhisperKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14AF01012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "WhisperKit" */;
+			productName = WhisperKit;
+		};
+		14AF02022F6BDE3F00989F02 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14AF02012F6BDE3F00989F02 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 14B293292F6BDE3E00989F02 /* Project object */;
 }
