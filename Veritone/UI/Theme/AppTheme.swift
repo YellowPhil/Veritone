@@ -72,7 +72,7 @@ enum AppTheme: String, CaseIterable, Identifiable {
                 elevatedCardBackground: Color.white.opacity(0.84),
                 controlBackground: Color.white.opacity(0.88),
                 transcriptBackground: Color.white.opacity(0.68),
-                border: Color.white.opacity(0.62),
+                border: Color(red: 0.76, green: 0.81, blue: 0.89),
                 success: Color(red: 0.09, green: 0.66, blue: 0.43),
                 warning: Color(red: 0.84, green: 0.48, blue: 0.12),
                 danger: Color(red: 0.88, green: 0.24, blue: 0.24),

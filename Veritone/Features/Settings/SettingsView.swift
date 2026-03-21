@@ -65,26 +65,27 @@ struct SettingsView: View {
             palette.backgroundGradient
                 .ignoresSafeArea()
 
-            TabView(selection: $selectedTab) {
-                generalTab
-                    .tabItem {
-                        Label("General", systemImage: "slider.horizontal.3")
-                    }
-                    .tag(SettingsTab.general)
+            VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    customTabBar
+                    Spacer()
+                }
+                .padding(.top, 18)
+                .padding(.horizontal, 18)
+                .padding(.bottom, 10)
 
-                modelsTab
-                    .tabItem {
-                        Label("Models", systemImage: "cube.transparent")
+                Group {
+                    switch selectedTab {
+                    case .general:
+                        generalTab
+                    case .models:
+                        modelsTab
+                    case .testing:
+                        testingTab
                     }
-                    .tag(SettingsTab.models)
-
-                testingTab
-                    .tabItem {
-                        Label("Testing", systemImage: "waveform.and.mic")
-                    }
-                    .tag(SettingsTab.testing)
+                }
             }
-            .padding(18)
         }
         .frame(minWidth: 620, minHeight: 560)
         .onAppear {
@@ -94,6 +95,45 @@ struct SettingsView: View {
         .onDisappear {
             viewModel.setShortcutHandlingEnabled(true)
         }
+    }
+
+    private var customTabBar: some View {
+        HStack(spacing: 2) {
+            tabBarButton(.general, title: "General", icon: "slider.horizontal.3")
+            tabBarButton(.models, title: "Models", icon: "cube.transparent")
+            tabBarButton(.testing, title: "Testing", icon: "waveform.and.mic")
+        }
+        .padding(4)
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(palette.controlBackground)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .stroke(palette.border, lineWidth: 1)
+                )
+        )
+    }
+
+    private func tabBarButton(_ tab: SettingsTab, title: String, icon: String) -> some View {
+        Button {
+            selectedTab = tab
+        } label: {
+            Label(title, systemImage: icon)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(selectedTab == tab ? .white : palette.secondaryText)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
+                    Group {
+                        if selectedTab == tab {
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(palette.accentGradient)
+                        }
+                    }
+                )
+        }
+        .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.18), value: selectedTab)
     }
 
     private var generalTab: some View {
