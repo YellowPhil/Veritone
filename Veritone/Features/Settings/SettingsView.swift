@@ -62,7 +62,7 @@ struct SettingsView: View {
 
     var body: some View {
         ZStack {
-            palette.backgroundGradient
+            palette.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -127,7 +127,7 @@ struct SettingsView: View {
                     Group {
                         if selectedTab == tab {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .fill(palette.accentGradient)
+                                .fill(palette.accent)
                         }
                     }
                 )
@@ -497,7 +497,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 8) {
                 ZStack(alignment: .topLeading) {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(previewPalette.backgroundGradient)
+                        .fill(previewPalette.background)
                         .frame(height: 84)
                         .overlay(
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
@@ -510,7 +510,7 @@ struct SettingsView: View {
                             .frame(height: 18)
 
                         RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .fill(previewPalette.accentGradient)
+                            .fill(previewPalette.accent)
                             .frame(width: 52, height: 7)
                     }
                     .padding(10)
