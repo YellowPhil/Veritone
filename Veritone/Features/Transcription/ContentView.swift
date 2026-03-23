@@ -7,15 +7,8 @@ struct ContentView: View {
 
     var body: some View {
         ZStack {
-            palette.backgroundGradient
+            palette.background
                 .ignoresSafeArea()
-
-            LinearGradient(
-                colors: [palette.ambientGlow.opacity(0.18), .clear],
-                startPoint: .top,
-                endPoint: .center
-            )
-            .ignoresSafeArea()
 
             VStack(spacing: 12) {
                 topBar
@@ -354,7 +347,7 @@ struct ChromeButtonStyle: ButtonStyle {
     private var backgroundFill: AnyShapeStyle {
         switch variant {
         case .primary:
-            return AnyShapeStyle(palette.accentGradient)
+            return AnyShapeStyle(palette.accent)
         case .secondary:
             return AnyShapeStyle(palette.controlBackground)
         }
