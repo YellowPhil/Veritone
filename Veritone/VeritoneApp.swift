@@ -27,17 +27,9 @@ struct VeritoneApp: App {
                         showPermissionPrompt = false
                     }
                 }
-                .onAppear {
+                .task {
                     permissionManager.checkPermissions()
                     showPermissionPrompt = permissionManager.needsPermissions
-                }
-                .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
-                    permissionManager.checkPermissions()
-                    if permissionManager.needsPermissions {
-                        showPermissionPrompt = true
-                    } else {
-                        showPermissionPrompt = false
-                    }
                 }
         }
 

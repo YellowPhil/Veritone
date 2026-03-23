@@ -5,7 +5,6 @@ enum MicrophonePermissionStatus {
     case authorized
     case notDetermined
     case denied
-    case restricted
 }
 
 @Observable
@@ -19,15 +18,12 @@ final class PermissionManager {
     }
 
     func checkPermissions() {
-        let avStatus = AVCaptureDevice.authorizationStatus(for: .audio)
-        switch avStatus {
-        case .authorized:
+        switch AVAudioApplication.shared.recordPermission {
+        case .granted:
             microphoneStatus = .authorized
         case .denied:
             microphoneStatus = .denied
-        case .restricted:
-            microphoneStatus = .restricted
-        case .notDetermined:
+        case .undetermined:
             microphoneStatus = .notDetermined
         @unknown default:
             microphoneStatus = .denied

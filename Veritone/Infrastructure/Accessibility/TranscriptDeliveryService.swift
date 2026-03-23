@@ -36,6 +36,8 @@ enum TranscriptDeliveryResult: Equatable, Sendable {
 @MainActor
 final class TranscriptDeliveryService {
     func deliverTranscript(_ text: String, mode: TranscriptDeliveryMode) -> TranscriptDeliveryResult {
+        deactivateApp()
+
         switch mode {
         case .pasteAndKeepClipboard:
             copyToClipboard(text)
@@ -150,6 +152,11 @@ final class TranscriptDeliveryService {
         vUp.post(tap: .cghidEventTap)
         commandUp.post(tap: .cghidEventTap)
         return true
+    }
+
+    private func deactivateApp() {
+        NSApp.deactivate()
+        Thread.sleep(forTimeInterval: 0.05)
     }
 
     private func copyToClipboard(_ text: String) {
