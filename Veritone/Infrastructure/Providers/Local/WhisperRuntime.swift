@@ -18,6 +18,11 @@ actor WhisperRuntime {
         self.modelIdentifier = modelIdentifier
     }
 
+    /// Eagerly loads the pipeline so the first transcription does not pay the initialization cost.
+    func warmUp() async throws {
+        try await loadPipelineIfNeeded()
+    }
+
     /// Transcribes the audio file at the given URL and returns the full text.
     func transcribe(audioURL: URL) async throws -> String {
         try Task.checkCancellation()

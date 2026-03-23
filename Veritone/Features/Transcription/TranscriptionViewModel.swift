@@ -109,6 +109,19 @@ final class TranscriptionViewModel {
             }
         }
 
+        if selectedProviderID == .localWhisper {
+            Task { [weak self] in
+                guard let self else { return }
+                if let provider = ProviderRegistry.makeProvider(
+                    id: .localWhisper,
+                    config: config,
+                    localModelEntry: selectedLocalModel
+                ) as? LocalWhisperProvider {
+                    try? await provider.warmUp()
+                }
+            }
+        }
+
         Task { [weak self] in
             for await _ in KeyboardShortcuts.events(.keyDown, for: .recordingShortcut) {
                 self?.handleShortcutPress()

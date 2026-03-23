@@ -22,6 +22,10 @@ struct LocalWhisperProvider: SpeechToTextProvider {
         .available(detail: "\(modelDescriptor.displayName) · \(modelDescriptor.sourceLabel)")
     }
 
+    func warmUp() async throws {
+        try await runtime.warmUp()
+    }
+
     func transcribe(_ request: TranscriptionRequest) async throws -> TranscriptionResult {
         let text = try await runtime.transcribe(audioURL: request.audioFileURL)
         return TranscriptionResult(
