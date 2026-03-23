@@ -1,5 +1,6 @@
 target/
 .code/
+.vscode/
 .cursor/
 utils/
 
