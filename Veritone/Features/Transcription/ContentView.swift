@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage(AppTheme.storageKey) private var selectedThemeRawValue = AppTheme.obsidian.rawValue
     @Bindable var viewModel: TranscriptionViewModel
+    @State private var recordingPulse = false
 
     var body: some View {
         ZStack {
@@ -26,6 +27,24 @@ struct ContentView: View {
         }
         .frame(minWidth: 460, minHeight: 340)
         .tint(palette.accent)
+        .onAppear {
+            if viewModel.uiState == .recording {
+                withAnimation(.easeInOut(duration: 0.85).repeatForever(autoreverses: true)) {
+                    recordingPulse = true
+                }
+            }
+        }
+        .onChange(of: viewModel.uiState) { _, state in
+            if state == .recording {
+                withAnimation(.easeInOut(duration: 0.85).repeatForever(autoreverses: true)) {
+                    recordingPulse = true
+                }
+            } else {
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    recordingPulse = false
+                }
+            }
+        }
     }
 
     private var selectedTheme: AppTheme {
@@ -82,23 +101,19 @@ struct ContentView: View {
                 if shouldShowSetupNote {
                     statusLine(title: "Setup", value: viewModel.providerDetailText, tone: providerTone)
                 }
-            }
 
-            HStack {
-                SettingsLink {
-                    Label("Open Settings", systemImage: "gearshape.2")
+                if case .success(let text) = viewModel.uiState, !text.isEmpty {
+                    transcriptPreview(text)
                 }
-                .buttonStyle(ChromeButtonStyle(palette: palette, variant: .primary))
-
-                Spacer(minLength: 0)
-
-                Text("Testing tools live in Settings.")
-                    .font(.footnote)
-                    .foregroundStyle(palette.secondaryText)
             }
+
+            SettingsLink {
+                Label("Open Settings", systemImage: "gearshape.2")
+            }
+            .buttonStyle(ChromeButtonStyle(palette: palette, variant: .primary))
         }
         .padding(18)
-        .frame(maxWidth: 320, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(panelBackground)
         .overlay(panelBorder)
         .shadow(color: palette.shadow, radius: 10, y: 6)
@@ -106,6 +121,14 @@ struct ContentView: View {
 
     private var statusSymbol: some View {
         ZStack {
+            if viewModel.uiState == .recording {
+                Circle()
+                    .fill(statusColor.opacity(0.10))
+                    .frame(width: 54, height: 54)
+                    .scaleEffect(recordingPulse ? 1.4 : 1.0)
+                    .opacity(recordingPulse ? 0 : 0.7)
+            }
+
             Circle()
                 .fill(statusColor.opacity(0.14))
                 .frame(width: 38, height: 38)
@@ -130,6 +153,25 @@ struct ContentView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 11)
+        .background(controlPlate)
+    }
+
+    private func transcriptPreview(_ text: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("TRANSCRIPT")
+                .font(.system(size: 10, weight: .semibold))
+                .tracking(0.55)
+                .foregroundStyle(palette.secondaryText)
+
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(palette.primaryText)
+                .lineLimit(3)
+                .truncationMode(.tail)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 11)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(controlPlate)
     }
 
@@ -203,11 +245,11 @@ struct ContentView: View {
         case .recording:
             return "Recording"
         case .transcribing:
-            return "Transcribing"
+            return "Processing"
         case .success:
             return "Complete"
         case .failure:
-            return "Attention Needed"
+            return "Error"
         }
     }
 
@@ -216,13 +258,13 @@ struct ContentView: View {
         case .idle:
             return viewModel.currentAvailability.isReady ? "Ready to capture" : "Configuration required"
         case .recording:
-            return "Recording"
+            return "Listening..."
         case .transcribing:
-            return "Transcribing"
+            return "Processing audio"
         case .success:
-            return "Completed"
+            return "Transcript ready"
         case .failure:
-            return "Needs attention"
+            return "Something went wrong"
         }
     }
 
@@ -233,11 +275,11 @@ struct ContentView: View {
                 ? "Use your shortcut to begin recording. Open Settings whenever you need to adjust preferences or run a manual test."
                 : "Open Settings to finish provider setup before you start."
         case .recording:
-            return "Recording is active now."
+            return "Speak clearly into your microphone."
         case .transcribing:
-            return "Your audio is being transcribed now."
+            return "Your audio is being processed, hang tight."
         case .success:
-            return "The latest transcript finished successfully."
+            return "Your transcript is ready. Check the clipboard or focused input."
         case .failure:
             return "Review the status message below and adjust the app configuration if needed."
         }
